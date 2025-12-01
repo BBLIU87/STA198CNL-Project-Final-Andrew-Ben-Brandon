@@ -1,6 +1,6 @@
 ---
 title: "Final Project"
-author: "Andrew Gray, Benjamin Braizer, Brandon Liu, Grant Fisher"
+author: "Andrew Gray, Benjamin Brazier, Brandon Liu, Grant Fisher"
 format: pdf
 ---
 
@@ -40,7 +40,7 @@ Sharma, A., & Nagalli, S. (2023). Chronic liver disease. In StatPearls. StatPear
 
 Zheng, J., Li, J., Zhu, Y., Wang, S., Chen, J., Lin, X., Qian, Y., Jin, L., & Yan, S. (2014). Liver grafts for transplantation from donors with diabetes mellitus. PLOS ONE, 9(6), e98104. https://doi.org/10.1371/journal.pone.0098104 
 
- 
+
 
  
 
