@@ -1,6 +1,49 @@
 ---
-title: "FinalProject"
-format: html
+title: "Final Project"
+author: "Andrew Gray, Benjamin Braizer, Brandon Liu, Grant Fisher"
+format: pdf
 ---
 
-hh
+Introduction: 
+
+Chronic liver disease can be characterized by progressive destruction and regeneration of the liver parenchyma for at least six months, leading to fibrosis and cirrhosis. It is caused by factors like viral hepatitis, excessive alcohol consumption, obesity, and certain genetic and autoimmune disorders. Symptoms can include fatigue, nausea, and jaundice, and complications can range from fluid buildup to liver failure and cancer (Sharma & Nagalli, 2023). 
+
+Chronic liver disease is a major global health problem, responsible for roughly one in every twenty-five deaths worldwide, and its burden is projected to increase further as alcohol-related disease and metabolic dysfunction–associated steatotic liver disease becomes more common (Plunkett et al., 2025).  
+
+Decisions about whether to accept or decline a liver for transplant are often made quickly and under uncertainty. Donor glucose is routinely measured, but it is not clear how much weight clinicians should give hyperglycemia when judging graft quality (NHS Blood and Transplant, n.d.). At the same time, doing a new prospective study would be expensive and slow, so using an existing dataset that already links donor characteristics to early graft outcomes is a practical way to explore this question. 
+
+Prior studies have shown that donor metabolic health and peri-transplant glucose control may influence liver transplant outcomes. For example, analyses suggest that livers from donors with diabetes are associated with poorer graft survival than those from non-diabetic donors, indicating that donor metabolic status can affect graft quality (Zheng et al., 2014). Other work has found that recipient hyperglycemia around the time of transplant is linked to higher risks of infection, rejection, acute kidney injury, and mortality, and that tighter postoperative glucose control may reduce complications (Rameshi et al., 2025).  
+
+This dataset is well-suited to the problem because it includes, for each transplant, (i) detailed donor information, (ii) key recipient factors such as age and MELD score, and (iii) glucose observations in liver graft. This structure allows us to ask if there is an association between donors with higher glucose and recipients transplanted liver function, while adjusting for other clinically important variables. 
+
+The observational unit in this study is a single deceased‐donor liver transplant (one donor-recipient pair). Our primary outcome is delayed_fn, a binary indicator of early delayed liver graft function in the recipient during the first postoperative week. The main exposure is donor hyperglycemia, summarized by the time-weighted average donor glucose glutwa; while also considering related measures such as the number of donor glucose measurements (glucount) and glucose variability (glurange, glusd). 
+
+As potential confounders, we include recipient and donor characteristics. Recipient variables include age, sex, race, body-mass index, and MELD score. Donor variables include age, sex, race, cause of death, serum sodium, liver steatosis, hypotension/hemodynamic instability, and a composite donor risk index. We also consider cold ischemia time (cold_ischemia). One way in modeling hyperglycemia and liver function, we could treat delayed_fn as the binary response, use glutwa as the main predictor, and adjust for a clinically motivated subset of these covariates to assess whether higher donor glucose is associated with increased odds of delayed graft dysfunction. 
+
+Data on donors, grafts, and recipients were collected for 591 liver transplants between January 2005 and October 2010 at the Cleveland Clinic. Excluded were grafts from living donors, donors after cardiac death, and transplants for which the donor’s glucose level was measured fewer than 2 times. Graft dysfunction, the outcome, was defined as (1) primary nonfunction as indicated by death or retransplant during the first postoperative week or (2) liver graft dysfunction as indicated by an aspartate aminotransferase level greater than 2000 U/L any time between postoperative days 2 and 7 or a prothrombin time greater than 16 seconds any time between postoperative days 2 and 7 (Perez-Protto et al., 2014). 
+
+ 
+
+
+Works Cited: 
+ 
+
+NHS Blood and Transplant. (n.d.). Accepting or declining an offer for a liver. NHS Blood and Transplant. Retrieved December 1, 2025, from https://www.nhsbt.nhs.uk/organ-transplantation/liver/receiving-a-liver/accepting-or-declining-an-offer-for-a-liver/ 
+
+Perez-Protto, S. E., Reynolds, L. F., Dalton, J. E., Taketomi, T., Irefin, S. A., Parker, B. M., Quintini, C., & Sessler, D. I. (2014). Deceased donor hyperglycemia and liver graft dysfunction. Progress in Transplantation, 24(1), 106–112. https://doi.org/10.7182/pit2014737 
+
+Plunkett, J. J., Thinzar, T., Bloom, P. P., Brennan, P. N., Duarte-Rojo, A., Puri, Y., Rammoham, A., Rockell, K., & Tavabie, O. D. (2025). Addressing global variation and systemic inequities in access to liver transplantation. npj Gut and Liver, 2, 30. https://doi.org/10.1038/s44355-025-00045-9 
+
+Rameshi, Y., Dashti-Khavidaki, S., Rabizadeh, S., Alimadadi, M., Moradi, A., Kasraianfard, A., Jafarian, A., & Ahmadinejad, Z. (2025). Peri-liver transplant hyperglycemia: Mechanisms, associated factors, consequences, and management – A systematic review. Endocrinology, Diabetes & Metabolism, 8(5), e70107. https://doi.org/10.1002/edm2.70107 
+
+Sharma, A., & Nagalli, S. (2023). Chronic liver disease. In StatPearls. StatPearls Publishing. https://www.ncbi.nlm.nih.gov/books/NBK554597/ 
+
+Zheng, J., Li, J., Zhu, Y., Wang, S., Chen, J., Lin, X., Qian, Y., Jin, L., & Yan, S. (2014). Liver grafts for transplantation from donors with diabetes mellitus. PLOS ONE, 9(6), e98104. https://doi.org/10.1371/journal.pone.0098104 
+
+ 
+
+ 
+
+ 
+
+ 
