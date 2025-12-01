@@ -22,8 +22,64 @@ As potential confounders, we include recipient and donor characteristics. Recipi
 
 Data on donors, grafts, and recipients were collected for 591 liver transplants between January 2005 and October 2010 at the Cleveland Clinic. Excluded were grafts from living donors, donors after cardiac death, and transplants for which the donor’s glucose level was measured fewer than 2 times. Graft dysfunction, the outcome, was defined as (1) primary nonfunction as indicated by death or retransplant during the first postoperative week or (2) liver graft dysfunction as indicated by an aspartate aminotransferase level greater than 2000 U/L any time between postoperative days 2 and 7 or a prothrombin time greater than 16 seconds any time between postoperative days 2 and 7 (Perez-Protto et al., 2014). 
 
- 
+```{r}
+library(tidyverse)
+df <- read.csv("DonorHyperglycemia.csv")
+str(df$delayed_fn)
+summary(df[, c("glutwa","glurange","glusd","glucount",
+               "donorrisk","cold_ischemia","r_age","d_age")])
+df <- df |>
+  mutate(delayed_fn = factor(delayed_fn, levels = c(0,1),
+                             labels = c("NoDysfunction","Dysfunction")))
 
+df <- df |>
+  mutate(
+    log2_glutwa   = log2(glutwa),
+    log2_glurange = log2(glurange + 1e-3),
+    log2_glusd    = log2(glusd + 1e-3)
+  )
+
+df <- df |>
+  mutate(
+    hyperglycemia = if_else(glutwa > 180, 1, 0),
+    hyperglycemia = factor(hyperglycemia,
+                           levels = c(0,1),
+                           labels = c("NoHyper","Hyper"))
+  )
+
+
+df <- df |>
+  mutate(
+    r_genderf   = factor(r_genderf, levels = c(0,1), labels = c("Male","Female")),
+    d_genderf   = factor(d_genderf, levels = c(0,1), labels = c("Male","Female")),
+    r_caucasian = factor(r_caucasian, levels = c(0,1), labels = c("Other","Caucasian")),
+    d_caucasian = factor(d_caucasian, levels = c(0,1), labels = c("Other","Caucasian")),
+    sbp_lt_90   = factor(sbp_lt_90, levels = c(0,1), labels = c("No","Yes")),
+    hemo_instability = factor(hemo_instability, levels = c(0,1), labels = c("No","Yes")),
+    steatosis   = factor(steatosis, levels = c(0,1), labels = c("No","Yes"))
+  )
+vars_main <- c("delayed_fn","hyperglycemia",
+               "donorrisk","cold_ischemia",
+               "d_age","d_caucasian","d_genderf","steatosis",
+               "sbp_lt_90","hemo_instability",
+               "r_age","r_bmi","r_caucasian","r_genderf","r_meld_calc")
+
+df_main <- df |> drop_na(all_of(vars_main))
+
+fit_hyper <- glm(
+  delayed_fn ~ hyperglycemia +
+    donorrisk + cold_ischemia +
+    d_age + d_caucasian + d_genderf + steatosis +
+    sbp_lt_90 + hemo_instability +
+    r_age + r_bmi + r_caucasian + r_genderf + r_meld_calc,
+  data = df_main,
+  family = binomial
+)
+summary(fit_hyper)
+
+hyper_or <- broom::tidy(fit_hyper, exponentiate = TRUE, conf.int = TRUE)
+hyper_or
+```
 
 Works Cited: 
  
