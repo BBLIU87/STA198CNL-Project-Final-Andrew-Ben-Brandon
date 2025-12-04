@@ -37,15 +37,11 @@ library(tidyverse)
 
 df <- read.csv("DonorHyperglycemia.csv")
 
-vars <- c("delayed_fn","hyperglycemia","d_age","d_genderf","d_caucasian",
-          "steatosis","cold_ischemia","r_age","r_meld_calc")
-
-
 df <- df |>
   mutate(
     log2_glutwa   = log2(glutwa),
-    log2_glurange = log2(glurange + 1e-3),
-    log2_glusd    = log2(glusd + 1e-3)
+    log2_glurange = log2(glurange),
+    log2_glusd    = log2(glusd)
   )
 
 fit <- glm(delayed_fn ~ cold_ischemia + r_height + r_weight + r_bmi + r_age + r_caucasian + r_genderf + r_meld_assign + r_meld_calc + d_age + d_cod + d_caucasian + d_genderf + donorrisk + sodium + steatosis + sbp_lt_90 + hemo_instability + glucount + log2_glutwa + log2_glurange + log2_glusd,
@@ -88,7 +84,21 @@ ggplot(
 
 ```
 
+<<<<<<< HEAD
 The null hypothesis is that there is not an association between the donor having hyperglycemia on delayed graft dysfunction in the recipient. The alternative hypothesis is that there is  an association between the donor having hyperglycemia on delayed graft dysfunction in the recipient. Holding other predictors in the model constant, we did not find enough statistically significant evidence that donor hyperglycemia—whether measured by time-weighted average glucose (TWA), glucose range, or glucose standard deviation—is associated with delayed graft dysfunction. 
+=======
+Methodology:
+
+A logistic regression model was used because the response variable, delayed liver graft function (delayed_fn), is a binary categorical variable. A linear model was not used because, while some variables like the number of glucose observations in the liver graft (glucount) and the time-weighted average of glucose observations in the liver graft (glutwa) are numerical variables, one continuous and one discrete, the main response variable is a binary categorical variable.
+
+After the dataset is loaded, the variables specific to glucose levels, , are transformed to log-odds variables. This improves linearity in the log-odds, accounting for that assumption of logistic regression models. Next, the logistic regression model was fit, relating all of the variables, including the log-transformed variables and donor specific variables such as donor age (d_age) and donor gender (d_genderf), to the delayed liver graft function. A summary of this model was shown as a table with an estimate, standard error, z-value, and p-value for each variable in relation to delayed liver graft function. Finally, a graph was made that compares the odds ratio for each variable on a 95% confidence interval, plotting odds ratio on the x-axis and all the variables separately on the y-axis. 
+
+The two assumptions for a logistic regression model are independence and linearity in the log-odds. The independence assumption is satisfied, as each data point corresponds to one organ transplant and there are no repeat organ transplants in the data. The assumption of linearity in the log-odds is satisfied, as the variables of interest are log-transformed.
+
+Discussion:
+
+The estimate that corresponds to donor hyperglycemia as indicated by the graph is 0.548 under the null hypothesis that follows a standard normal distribution, holding all other predictors constant. This means that the log odds of delayed graft dysfunction for those who have hyperglycemia increase by 0.548 as compared to the reference group. The null hypothesis is that donor hyperglycemia has no association with delayed graft dysfunction, holding all other predictors constant. The alternative hypothesis is donor hyperglycemia is associated with delayed graft dysfunction, holding all other predictors constant. There is no statistically significant evidence that donors with hyperglycemia (>180 mg/dL) increase the risk of delayed graft dysfunction in recipients. Despite the adjusted odds ratio indicating that those who had hyperglycemia have 1.73 times the odds of having delayed graft dysfunction than the reference group given all other predictors are held constant, the confidence interval is extremely wide and includes values under 1. More importantly, the p-value that corresponds with Donor Hyperglycemia is 0.177 which is greater than our significance level of 0.05. Thus, we would fail to reject the null hypothesis.
+>>>>>>> f87cde9da693d82982bc97f6c5840c59d37431e8
 
 For time-weighted average glucose (log₂ TWA), there was am odds ratio of approximately 1.17, representing a 17% increase in odds of dysfunction per doubling of TWA glucose, holding all other predictors constant. However, a wide confidence interval of 0.57–2.38 (odds ratios) and a p-value of 0.67 which is higher than a significance level of 0.05 suggest insufficient evidence to reject the null hypothesis. The same can be said for log2 transformed glucose range with an odds ratio 2.09, suggesting high glucose variability could increase risk of delayed graft dysfunction, but once again the odds ratio confidence interval was extremely wide (0.46–9.57) and the p-value of 0.34 is significantly above 0.05, providing insufficient evidence to reject the null hypothesis. Finally, glucose standard deviation had the highest p-value of 0.54 which is well above the signficance level of 0.05, failing to support a rejection of the null hypothesis. Overall, the combination of nonsignificant p-values, wide confidence intervals, and modest effect sizes all point toward a lack of  evidence that donor hyperglycemia or glucose variability independently is associated with delayed graft dysfunction when clinically relevant covariates are included. 
 
