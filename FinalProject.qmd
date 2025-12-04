@@ -11,7 +11,7 @@ knitr:
     fig.height: 3
 ---
 
-Introduction: 
+## Introduction: 
 
 Chronic liver disease can be characterized by progressive destruction and regeneration of the liver parenchyma for at least six months, leading to fibrosis and cirrhosis. It is caused by factors like viral hepatitis, excessive alcohol consumption, obesity, and certain genetic and autoimmune disorders. Symptoms can include fatigue, nausea, and jaundice, and complications can range from fluid buildup to liver failure and cancer (Sharma & Nagalli, 2023). 
 
@@ -43,6 +43,8 @@ df <- df |>
     log2_glurange = log2(glurange),
     log2_glusd    = log2(glusd)
   )
+
+summary(df$log2_glutwa)
 
 fit <- glm(delayed_fn ~ cold_ischemia + r_height + r_weight + r_bmi + r_age + r_caucasian + r_genderf + r_meld_assign + r_meld_calc + d_age + d_cod + d_caucasian + d_genderf + donorrisk + sodium + steatosis + sbp_lt_90 + hemo_instability + glucount + log2_glutwa + log2_glurange + log2_glusd,
            data = df, 
@@ -85,7 +87,7 @@ ggplot(
 ```
 
 
-Methodology:
+## Methodology:
 
 A logistic regression model was used because the response variable, delayed liver graft function (delayed_fn), is a binary categorical variable. A linear model was not used because, while some variables like the number of glucose observations in the liver graft (glucount) and the time-weighted average of glucose observations in the liver graft (glutwa) are numerical variables, one continuous and one discrete, the main response variable is a binary categorical variable.
 
@@ -93,18 +95,19 @@ After the dataset is loaded, the variables specific to glucose levels, , are tra
 
 The two assumptions for a logistic regression model are independence and linearity in the log-odds. The independence assumption is satisfied, as each data point corresponds to one organ transplant and there are no repeat organ transplants in the data. The assumption of linearity in the log-odds is satisfied, as the variables of interest are log-transformed.
 
-Results:
+## Results:
 
 The null hypothesis is that there is not an association between the donor having hyperglycemia on delayed graft dysfunction in the recipient. The alternative hypothesis is that there is  an association between the donor having hyperglycemia on delayed graft dysfunction in the recipient. Holding other predictors in the model constant, we did not find enough statistically significant evidence that donor hyperglycemia—whether measured by time-weighted average glucose (TWA), glucose range, or glucose standard deviation—is associated with delayed graft dysfunction.
 
 For time-weighted average glucose (log₂ TWA), there was an odds ratio of approximately 1.17, representing a 17% increase in odds of dysfunction per doubling of TWA glucose, holding all other predictors constant. However, a wide confidence interval of 0.57–2.38 (odds ratios) and a p-value of 0.67 which is higher than a significance level of 0.05 suggest insufficient evidence to reject the null hypothesis. The same can be said for log2 transformed glucose range with an odds ratio 2.09, suggesting high glucose variability could increase risk of delayed graft dysfunction, but once again the odds ratio confidence interval was extremely wide (0.46–9.57) and the p-value of 0.34 is significantly above 0.05, providing insufficient evidence to reject the null hypothesis. Finally, glucose standard deviation had the highest p-value of 0.54 which is well above the signficance level of 0.05, failing to support a rejection of the null hypothesis. Overall, the combination of nonsignificant p-values, wide confidence intervals, and modest effect sizes all point toward a lack of  evidence that donor hyperglycemia or glucose variability independently is associated with delayed graft dysfunction when clinically relevant covariates are included. 
 
 In contrast, the number of donor glucose measurements (glucount) showed a statistically significant association. With an odds ratio of 0.8, supporting 20% reduction in odds of delayed dysfunction per additional glucose measurement while holding other predictors constant, a confidence interval entirely below 1, and a p-value of 0.0285 which is less than a significane value of 0.05. A clinical explanation for this might be the fact that more frequent glucose measurements likely reflect closer metabolic monitoring and more attentive donor management, potentially including more timely insulin administration and higher quality intensive care. The association may just be because glucount may serve as a proxy for overall donor care quality, a potential confounder to be cautious of.
-Discussion:
+
+## Discussion:
 
 
 
-Works Cited: 
+## Works Cited: 
  
 
 NHS Blood and Transplant. (n.d.). Accepting or declining an offer for a liver. NHS Blood and Transplant. Retrieved December 1, 2025, from https://www.nhsbt.nhs.uk/organ-transplantation/liver/receiving-a-liver/accepting-or-declining-an-offer-for-a-liver/ 
