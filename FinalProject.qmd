@@ -34,29 +34,23 @@ Results:
 ```{r}
 library(tidyverse)
 
-df <- read.csv("DonorHyperglycemia.csv") |>
-  mutate(
-    delayed_fn    = factor(delayed_fn, levels = c(0,1), labels = c("No","Yes")),
-    hyperglycemia = factor(if_else(glutwa > 180, 1, 0), levels = c(0,1),
-                           labels = c("NoHyper","Hyper")),
-    d_genderf     = factor(d_genderf, levels = c(0,1), labels = c("Male","Female")),
-    d_caucasian   = factor(d_caucasian, levels = c(0,1), labels = c("Other","Caucasian")),
-    steatosis     = factor(steatosis, levels = c(0,1), labels = c("No","Yes"))
-  )
+
+df <- read.csv("DonorHyperglycemia.csv")
 
 vars <- c("delayed_fn","hyperglycemia","d_age","d_genderf","d_caucasian",
           "steatosis","cold_ischemia","r_age","r_meld_calc")
 
-df_mod <- df |> drop_na(all_of(vars))
 
-fit <- glm(delayed_fn ~ ., data = df_mod, family = binomial)
+df <- df |>
+  mutate(
+    log2_glutwa   = log2(glutwa),
+    log2_glurange = log2(glurange + 1e-3),
+    log2_glusd    = log2(glusd + 1e-3)
+  )
+
+fit <- glm(delayed_fn ~ ., data = df, family = binomial)
 summary(fit)
 
-OR <- exp(coef(fit))
-CI <- exp(confint(fit))
-
-or_table <- round(cbind(OR, CI), 3)
-or_table
 
 
 ```
