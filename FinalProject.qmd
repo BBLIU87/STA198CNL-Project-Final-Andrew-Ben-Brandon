@@ -48,9 +48,10 @@ df <- df |>
     log2_glusd    = log2(glusd + 1e-3)
   )
 
-fit <- glm(delayed_fn ~ ., data = df, family = binomial)
+fit <- glm(delayed_fn ~ cold_ischemia + r_height + r_weight + r_bmi + r_age + r_caucasian + r_genderf + r_meld_assign + r_meld_calc + d_age + d_cod + d_caucasian + d_genderf + donorrisk + sodium + steatosis + sbp_lt_90 + hemo_instability + glucount + log2_glutwa + log2_glurange + log2_glusd,
+           data = df, 
+           family = binomial)
 summary(fit)
-
 
 
 ```
