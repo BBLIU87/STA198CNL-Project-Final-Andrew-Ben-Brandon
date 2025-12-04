@@ -94,6 +94,24 @@ ggplot(
     y = "Odds ratio (log scale)"
   )
 
+
+```
+
+```{r}
+library(ggplot2)
+
+df <- df |>
+  mutate(logit_pred = predict(fit, type = "link"))  # predicted log-odds
+
+ggplot(df, aes(x = log2_glutwa, y = logit_pred)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "loess", se = FALSE, color = "blue") +
+  labs(
+    title = "Linearity in the log-odds for log₂(glutwa)",
+    x = "log₂(glutwa)",
+    y = "Predicted log-odds of delayed graft function"
+  ) +
+  theme_minimal()
 ```
 
 
@@ -101,7 +119,7 @@ ggplot(
 
 A logistic regression model was used because the response variable, delayed liver graft function (delayed_fn), is a binary categorical variable. A linear model was not used because, while some variables like the number of glucose observations in the liver graft (glucount) and the time-weighted average of glucose observations in the liver graft (glutwa) are numerical variables, one continuous and one discrete, the main response variable is a binary categorical variable.
 
-After the dataset is loaded, the variables specific to glucose levels, , are transformed to log-odds variables. This improves linearity in the log-odds, accounting for that assumption of logistic regression models. Next, the logistic regression model was fit, relating all of the variables, including the log-transformed variables and donor specific variables such as donor age (d_age) and donor gender (d_genderf), to the delayed liver graft function. A summary of this model was shown as a table with an estimate, standard error, z-value, and p-value for each variable in relation to delayed liver graft function. Finally, a graph was made that compares the odds ratio for each variable on a 95% confidence interval, plotting odds ratio on the x-axis and all the variables separately on the y-axis. 
+After the dataset is loaded, the variables specific to glucose levels are transformed to log-odds variables. This improves linearity in the log-odds, accounting for that assumption of logistic regression models. Next, the logistic regression model was fit, relating all of the variables, including the log-transformed variables and donor specific variables such as donor age (d_age) and donor gender (d_genderf), to the delayed liver graft function. A summary of this model was shown as a table with an estimate, standard error, z-value, and p-value for each variable in relation to delayed liver graft function. Finally, a graph was made that compares the odds ratio for each variable on a 95% confidence interval, plotting odds ratio on the x-axis and all the variables separately on the y-axis. 
 
 The two assumptions for a logistic regression model are independence and linearity in the log-odds. The independence assumption is satisfied, as each data point corresponds to one organ transplant and there are no repeat organ transplants in the data. The assumption of linearity in the log-odds is satisfied, as the variables of interest are log-transformed.
 
