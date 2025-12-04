@@ -37,6 +37,10 @@ library(tidyverse)
 
 df <- read.csv("DonorHyperglycemia.csv")
 
+glucose_vars <- c("glutwa", "glurange", "glusd")
+
+
+
 df <- df |>
   mutate(
     log2_glutwa   = log2(glutwa),
@@ -54,6 +58,12 @@ summary(fit)
 library(broom)
 library(dplyr)
 library(ggplot2)
+library(e1071)
+
+glucose_vars <- c("glutwa", "glurange", "glusd")
+
+# 1. Numerical skewness values
+sapply(df[glucose_vars], skewness)
 
 odds_ratio_graph <- broom::tidy(fit, exponentiate = TRUE, conf.int = TRUE) |>
   filter(term != "(Intercept)") |>
