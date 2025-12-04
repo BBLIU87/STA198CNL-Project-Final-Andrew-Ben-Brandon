@@ -53,27 +53,40 @@ fit <- glm(delayed_fn ~ cold_ischemia + r_height + r_weight + r_bmi + r_age + r_
            family = binomial)
 summary(fit)
 
+library(broom)
+library(dplyr)
+library(ggplot2)
+
+odds_ratio_graph <- broom::tidy(fit, exponentiate = TRUE, conf.int = TRUE) |>
+  filter(term != "(Intercept)") |>
+  mutate(
+    predictor = recode(
+      term,
+      "log2_glutwa"   = "Donor glucose TWA (per doubling)",
+      "log2_glurange" = "Donor glucose range (per doubling)",
+      "log2_glusd"    = "Donor glucose SD (per doubling)",
+      "donorrisk"     = "Donor risk index",
+      "cold_ischemia" = "Cold ischemia time (per hour)",
+      "r_meld_calc"   = "Recipient MELD (per point)",
+      "glucount"      = "Number of glucose readings"   # added
+    )
+  )
+
+ggplot(
+  odds_ratio_graph,
+  aes(x = predictor, y = estimate, ymin = conf.low, ymax = conf.high)
+) +
+  geom_pointrange() +
+  geom_hline(yintercept = 1, linetype = "dashed") +
+  coord_flip() +
+  scale_y_log10() +
+  labs(
+    title = "Adjusted odds ratios for delayed liver graft dysfunction",
+    x = "",
+    y = "Odds ratio (log scale)"
+  )
 
 ```
-Summarized table of crucial predictors with references in context of the data. Hyperglycemia defined as TWA glucose >180 mg/dL, consistent with clinical thresholds (universal ICU threshold): 
-
-| Predictor               | OR       | 95% CI          | p-value 
-| ----------------------- | -------- | --------------- | ------- 
-| **Donor Hyperglycemia** | **1.73** | 0.79 – 3.89     | 0.177   
-| Donor Risk Index        | 4.62     | 0.94 – 23.53    | 0.059   
-| Cold Ischemia Time      | 1.00     | 0.9986 – 1.0044 | 0.319   
-| Donor Age               | 1.00     | 0.96 – 1.02     | 0.639   
-| Donor Caucasian Race    | 2.06     | 0.77 – 6.21     | 0.171   
-| Donor Female            | 0.85     | 0.36 – 1.99     | 0.718   
-| Steatosis (>10%)        | 2.91     | 0.92 – 9.03     | 0.065   
-| SBP < 90 mmHg           | 4.33     | 0.95 – 20.43    | 0.057   
-| Hemodynamic Instability | 0.67     | 0.26 – 1.80     | 0.415   
-| Recipient Age           | 1.00     | 0.97 – 1.03     | 0.924     
-| Recipient BMI           | 0.94     | 0.87 – 1.00     | 0.079     
-| Recipient Caucasian Race| 0.58     | 0.24 – 1.45     | 0.241     
-| Recipient Female        | 0.65     | 0.25 – 1.50     | 0.312     
-| **Recipient MELD        | **1.05** | **1.00 – 1.09** | **0.043** 
-
 
 The estimate that corresponds to donor hyperglycemia as indicated by the graph is 0.548 under the null hypothesis that follows a standard normal distribution, holding all other predictors constant. This means that the log odds of delayed graft dysfunction for those who have hyperglycemia increase by 0.548 as compared to the reference group. The null hypothesis is that donor hyperglycemia has no association with delayed graft dysfunction, holding all other predictors constant. The alternative hypothesis is donor hyperglycemia is associated with delayed graft dysfunction, holding all other predictors constant. There is no statistically significant evidence that donors with hyperglycemia (>180 mg/dL) increase the risk of delayed graft dysfunction in recipients. Despite the adjusted odds ratio indicating that those who had hyperglycemia have 1.73 times the odds of having delayed graft dysfunction than the reference group given all other predictors are held constant, the confidence interval is extremely wide and includes values under 1. More importantly, the p-value that corresponds with Donor Hyperglycemia is 0.177 which is greater than our significance level of 0.05. Thus, we would fail to reject the null hypothesis.
 
