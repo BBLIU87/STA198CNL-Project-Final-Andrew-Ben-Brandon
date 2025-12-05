@@ -11,6 +11,11 @@ knitr:
     fig.height: 3
 ---
 
+## AI Statement:
+https://chatgpt.com/share/69322b7d-de48-800c-9044-9385d96cdddf
+AI was used to justify using log2 transformation on glucose variables to make
+them not violate linearity on log odds and to download additional packages.
+
 ## Introduction: 
 
 Chronic liver disease can be characterized by progressive destruction and regeneration of the liver parenchyma for at least six months, leading to fibrosis and cirrhosis. It is caused by factors like viral hepatitis, excessive alcohol consumption, obesity, and certain genetic and autoimmune disorders. Symptoms can include fatigue, nausea, and jaundice, and complications can range from fluid buildup to liver failure and cancer (Sharma & Nagalli, 2023). 
