@@ -48,7 +48,7 @@ df <- df |>
     log2_glusd    = log2(glusd)
   )
 
-summary(df$log2_glutwa)
+
 
 fit <- glm(delayed_fn ~ cold_ischemia + r_height + r_weight + r_bmi + r_age + r_caucasian + r_genderf + r_meld_assign + r_meld_calc + d_age + d_cod + d_caucasian + d_genderf + donorrisk + sodium + steatosis + sbp_lt_90 + hemo_instability + glucount + log2_glutwa + log2_glurange + log2_glusd,
            data = df, 
@@ -97,22 +97,6 @@ ggplot(
 
 ```
 
-```{r}
-library(ggplot2)
-
-df <- df |>
-  mutate(logit_pred = predict(fit, type = "link"))  # predicted log-odds
-
-ggplot(df, aes(x = log2_glutwa, y = logit_pred)) +
-  geom_point(alpha = 0.4) +
-  geom_smooth(method = "loess", se = FALSE, color = "blue") +
-  labs(
-    title = "Linearity in the log-odds for log₂(glutwa)",
-    x = "log₂(glutwa)",
-    y = "Predicted log-odds of delayed graft function"
-  ) +
-  theme_minimal()
-```
 
 
 ## Methodology:
