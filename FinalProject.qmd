@@ -117,7 +117,7 @@ In contrast, the number of donor glucose measurements (glucount) showed a statis
 
 ## Discussion:
 
-
+The study aimed to determine whether donor hyperglycemia is associated with delayed graft dysfunction. By looking at all glucose measures, we found no statistically significant associations, indicating that donor hyperglycemia does not appear to independently predict early graft dysfunction once other clinical factors are considered and all other variables are held constant. The conclusions are directly supported by the results since the wide confidence intervals and non-statistically significant p-values suggest a lack of evidence to reject the null hypothesis. However, the study’s methodology does have limitations. The logistic regression model included many predictors relative to the size of the sample, which can increase the risk of over fitting. Additionally, glucose exposure may be misclassified because measurement frequency and timing were likely not standardized across donors. These reasons would affect both reliability and validity and could make it difficult to detect small but clinically meaningful associations. If we were to repeat this study, we would reduce the number of predictors or use other methods to prevent over fitting. It would also help to have more detailed information about how donors were managed. More plainly, it would have been helpful to have direct information and data regarding whether the donors had hyperglycemia so that we could make more concrete assertions. 
 
 ## Works Cited: 
  
