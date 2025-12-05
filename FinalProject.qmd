@@ -30,6 +30,7 @@ As potential confounders, we include recipient and donor characteristics. Recipi
 Data on donors, grafts, and recipients were collected for 591 liver transplants between January 2005 and October 2010 at the Cleveland Clinic. Excluded were grafts from living donors, donors after cardiac death, and transplants for which the donor’s glucose level was measured fewer than 2 times. Graft dysfunction, the outcome, was defined as (1) primary nonfunction as indicated by death or retransplant during the first postoperative week or (2) liver graft dysfunction as indicated by an aspartate aminotransferase level greater than 2000 U/L any time between postoperative days 2 and 7 or a prothrombin time greater than 16 seconds any time between postoperative days 2 and 7 (Perez-Protto et al., 2014). 
 
 
+## Data Analysis
 
 ```{r}
 library(tidyverse)
@@ -89,7 +90,9 @@ ggplot(
   coord_flip() +
   scale_y_log10() +
   labs(
-    title = "Adjusted odds ratios for delayed liver graft dysfunction",
+    title = "Adjusted odds ratios 
+    for delayed liver 
+    graft dysfunction",
     x = "",
     y = "Odds ratio (log scale)"
   )
@@ -105,7 +108,11 @@ A logistic regression model was used because the response variable, delayed live
 
 After the dataset is loaded, the variables specific to glucose levels are transformed to log-odds variables. This improves linearity in the log-odds, accounting for that assumption of logistic regression models. Next, the logistic regression model was fit, relating all of the variables, including the log-transformed variables and donor specific variables such as donor age (d_age) and donor gender (d_genderf), to the delayed liver graft function. A summary of this model was shown as a table with an estimate, standard error, z-value, and p-value for each variable in relation to delayed liver graft function. Finally, a graph was made that compares the odds ratio for each variable on a 95% confidence interval, plotting odds ratio on the x-axis and all the variables separately on the y-axis. 
 
-The two assumptions for a logistic regression model are independence and linearity in the log-odds. The independence assumption is satisfied, as each data point corresponds to one organ transplant and there are no repeat organ transplants in the data. The assumption of linearity in the log-odds is satisfied, as the variables of interest are log-transformed.
+The two assumptions for a logistic regression model are independence and linearity in the log-odds. The independence assumption is satisfied, as each data point corresponds to one organ transplant and there are no repeat organ transplants in the data. 
+The assumption of linearity in the log-odds is satisfied through the log-tranformation of the variables. To assess the distributional properties of the glucose predictors (glutwa, glurange, glusd), we evaluated right-skewness using numerical diagnostics. Numerical skewness statistics were computed using the e1071 package in R, and all three glucose variables showed positive skewness values greater than 1, indicating substantial right-skewed distributions.
+Because logistic regression assumes a linear relationship between each continuous predictor and the log-odds of the outcome, the presence of right-skewness can potentially introduce problems that violate this assumption. To address this, we applied a log₂ transformation to each glucose variable. The log₂ transformation reduces skewness by compressing the upper tail and stabilizing variance, which helps linearize the predictor log-odds relationship. Additionally, the log₂ scale provides a clinically interpretable effect size, where a one-unit increase corresponds to a doubling in the glucose value.
+Together, the skewness diagnostics and the theoretical considerations of the logistic model justified the use of the log₂ transformation to improve model fit and interpretability.
+
 
 ## Results:
 
